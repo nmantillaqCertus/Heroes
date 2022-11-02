@@ -65,28 +65,3 @@ class _ScreenHeroState extends State<ScreenHero> {
     );
   }
 }
-/*
-Future<HeroFinal> heroesObtenidos() async {
-  //Se realizará una llamada a la API
-  //Obtendras un objeto => proceso
-  var uriAPIHero =
-      Uri.parse("https://akabab.github.io/superhero-api/api/all.json");
-
-  final responseHero = await http.get(uriAPIHero);
-
-  PowerStats powerstats = PowerStats(123, 45, 12, 45, 78, 45);
-  Appearance appearance =
-      Appearance("gender", "race", "height", "weight", "eyeColor", "hairColor");
-
-  Biography biography = Biography("fullName", "alterEgos", "aliases",
-      "placeOfBirth", "firstAppearance", "publisher", "alignment");
-
-  Work work = Work("occupation", "base");
-  Images images = Images("imgXS", "imgSM", "imgMD", "imgLG");
-
-  print("desde los heroes obtenidos");
-
-  return HeroFinal(
-      1, "name", "slug", powerstats, appearance, biography, work, images);
-}
-*/
