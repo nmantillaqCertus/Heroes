@@ -18,5 +18,5 @@ export 'package:super_hero/Screens/screen_detail_hero.dart';
 //Routes
 export 'package:super_hero/Routes/hero_routes.dart';
 
-//HTTP
-//export 'package:http/http.dart' as http;
+//Service
+export 'package:super_hero/Service/service.dart';

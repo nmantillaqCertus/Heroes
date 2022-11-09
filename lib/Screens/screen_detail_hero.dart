@@ -6,11 +6,11 @@ class ScreenDetailHero extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final hereoRecibido = ModalRoute.of(context)?.settings.arguments.toString();
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text(hereoRecibido.toString()),
-      ),
-      body: const Text("Esta es la pantalla de detalle del heroe"),
-    );
+        appBar: AppBar(
+          title: Text(hereoRecibido.toString()),
+        ),
+        body: Text(hereoRecibido.toString()));
   }
 }

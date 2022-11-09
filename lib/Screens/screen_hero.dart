@@ -1,6 +1,7 @@
 import '../Helpers/exportsClass.dart';
 // ignore: unused_import
 import 'package:http/http.dart' as http;
+// ignore: unused_import
 
 class ScreenHero extends StatefulWidget {
   const ScreenHero({super.key});
@@ -10,40 +11,12 @@ class ScreenHero extends StatefulWidget {
 }
 
 class _ScreenHeroState extends State<ScreenHero> {
-  Future<List<HeroFinal>> heroesObtenidos() async {
-    //Se realizará una llamada a la API
-    //Obtendras un objeto => proceso
-    var uriAPIHero =
-        Uri.parse("https://akabab.github.io/superhero-api/api/all.json");
-
-    final responseHero = await http.get(uriAPIHero);
-
-    print(responseHero.body);
-
-    PowerStats powerstats = PowerStats(123, 45, 12, 45, 78, 45);
-    Appearance appearance = Appearance(
-        "gender", "race", ["height"], ["weight"], "eyeColor", "hairColor");
-
-    Biography biography = Biography("fullName", "alterEgos", ["aliases"],
-        "placeOfBirth", "firstAppearance", "publisher", "alignment");
-
-    Work work = Work("occupation", "base");
-    Images images = Images("imgXS", "imgSM", "imgMD", "imgLG");
-
-    final listaHeros = <HeroFinal>[
-      HeroFinal(
-          1, "name", "slug", powerstats, appearance, biography, work, images)
-    ];
-
-    return listaHeros;
-  }
-  //late heroesObtenidos;
+  late Future<List<HeroFinal>> heroesObtenidos;
 
   @override
   void initState() {
     super.initState();
-
-    heroesObtenidos();
+    heroesObtenidos = Service.heroesObtenidos();
   }
 
   @override
@@ -52,16 +25,71 @@ class _ScreenHeroState extends State<ScreenHero> {
       appBar: AppBar(
         title: const Text("Pantalla del Heroe"),
       ),
-      body: ListView(
-        children: [
-          TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, "Pantalla_Detalle",
-                    arguments: "CUALQUIER HEROE");
-              },
-              child: const Text("Heroe 1"))
-        ],
+      body: FutureBuilder(
+        future: heroesObtenidos,
+        builder: (context, heroes) {
+          if (heroes.hasData) {
+            return ListView(
+              children: listaHeroes(heroes.data!),
+            );
+          } else if (heroes.hasError) {
+            return const Text("No se encontraron heroes");
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
       ),
     );
+  }
+
+  List<Widget> listaHeroes(List<HeroFinal> heroesData) {
+    List<Widget> heroes = [];
+
+    for (var heroe in heroesData) {
+      var nombreHeroe = heroe.name.toString();
+      var imgHereo = heroe.images!.imgLG;
+      heroes.add(Center(
+        child: Card(
+          elevation: 5,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                leading: FadeInImage(
+                  image: NetworkImage(imgHereo!),
+                  placeholder: const AssetImage("images/SpinnerImg.gif"),
+                ),
+                title: Text(nombreHeroe),
+              ), //CircleAvatar
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const SizedBox(width: 8),
+                  Text(nombreHeroe),
+                  const SizedBox(width: 8)
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  TextButton(
+                    child: const Text('más info'),
+                    onPressed: () {
+                      Navigator.pushNamed(context, "Pantalla_Detalle",
+                          arguments: nombreHeroe);
+                    },
+                  ),
+                  const SizedBox(width: 8)
+                ],
+              ),
+            ],
+          ),
+        ),
+      ));
+    }
+
+    return heroes;
   }
 }

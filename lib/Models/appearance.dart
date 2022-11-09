@@ -3,8 +3,8 @@
 class Appearance {
   late String? gender;
   late String? race;
-  late List<String>? height;
-  late List<String>? weight;
+  late List<dynamic>? height;
+  late List<dynamic>? weight;
   late String? eyeColor;
   late String? hairColor;
 

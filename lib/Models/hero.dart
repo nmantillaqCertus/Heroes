@@ -12,7 +12,15 @@ class HeroFinal {
   late Work? work;
   late Images? images;
 
-  HeroFinal(id, name, slug, powerstats, appearance, biography, work, images) {
+  HeroFinal(
+      int? id,
+      String? name,
+      String? slug,
+      PowerStats? powerstats,
+      Appearance? appearance,
+      Biography? biography,
+      Work? work,
+      Images? images) {
     this.id = id;
     this.name = name;
     this.slug = slug;

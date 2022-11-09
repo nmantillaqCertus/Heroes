@@ -2,7 +2,7 @@
 class Biography {
   late String? fullName;
   late String? alterEgos;
-  late List<String>? aliases;
+  late List<dynamic>? aliases;
 
   late String? placeOfBirth;
   late String? firstAppearance;

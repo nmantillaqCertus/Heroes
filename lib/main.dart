@@ -2,11 +2,13 @@ import 'Helpers/exportsClass.dart';
 
 //Ejecutor, dispoarador
 void main() {
-  runApp(HeroMain());
+  runApp(const HeroMain());
 }
 
 //Widget Principal
 class HeroMain extends StatelessWidget {
+  const HeroMain({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
