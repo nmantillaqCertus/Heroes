@@ -78,7 +78,7 @@ class _ScreenHeroState extends State<ScreenHero> {
                     child: const Text('más info'),
                     onPressed: () {
                       Navigator.pushNamed(context, "Pantalla_Detalle",
-                          arguments: nombreHeroe);
+                          arguments: heroe);
                     },
                   ),
                   const SizedBox(width: 8)

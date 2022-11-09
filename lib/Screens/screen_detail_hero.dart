@@ -5,12 +5,19 @@ class ScreenDetailHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hereoRecibido = ModalRoute.of(context)?.settings.arguments.toString();
+    final hereoRecibido =
+        ModalRoute.of(context)?.settings.arguments as HeroFinal;
+    final imgHeroe = hereoRecibido.images!.imgMD;
+
+    print(hereoRecibido.work?.occupation);
 
     return Scaffold(
         appBar: AppBar(
-          title: Text(hereoRecibido.toString()),
+          title: Text(hereoRecibido.name.toString()),
         ),
-        body: Text(hereoRecibido.toString()));
+        body: FadeInImage(
+          image: NetworkImage(imgHeroe!),
+          placeholder: const AssetImage("images/SpinnerImg.gif"),
+        ));
   }
 }
