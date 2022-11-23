@@ -4,8 +4,9 @@ import '../Helpers/exportsClass.dart';
 import 'package:http/http.dart' as http;
 
 class Service {
-  static Future<List<HeroFinal>> heroesObtenidos() async {
-    List<HeroFinal> heroes = [];
+  static Future<List<HeroFinal>> heroesObtenidos(String argumento) async {
+    List<HeroFinal> heroesTemporales = [];
+    List<HeroFinal> heroesFinales = [];
 
     Uri uriAPIHero =
         Uri.parse("https://akabab.github.io/superhero-api/api/all.json");
@@ -46,10 +47,18 @@ class Service {
         Images images = Images(hero["images"]["xs"], hero["images"]["sm"],
             hero["images"]["md"], hero["images"]["lg"]);
 
-        heroes.add(HeroFinal(hero["id"], hero["name"], hero["slug"], powerstats,
-            appearance, biography, work, images));
+        heroesTemporales.add(HeroFinal(hero["id"], hero["name"], hero["slug"],
+            powerstats, appearance, biography, work, images));
       }
     }
-    return heroes;
+
+    if (argumento != "") {
+      heroesFinales = heroesTemporales
+          .where((heroe) => heroe.name!.contains(argumento)) as List<HeroFinal>;
+    } else {
+      heroesFinales = heroesTemporales;
+    }
+
+    return heroesFinales;
   }
 }

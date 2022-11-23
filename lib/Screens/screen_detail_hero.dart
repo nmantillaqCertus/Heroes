@@ -13,6 +13,7 @@ class ScreenDetailHero extends StatelessWidget {
         ModalRoute.of(context)?.settings.arguments as HeroFinal;
     final imgHeroe = hereoRecibido.images!.imgLG;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SizedBox(
         height: alto,
         child: Stack(
@@ -199,20 +200,74 @@ Widget parteMedia(
           borderRadius: BorderRadius.circular(20),
           color: Colors.white,
           boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 10)]),
-      child: SafeArea(
-          child: Column(
+      child: Column(
         children: [
-          DefaultTabController(
-              initialIndex: 0,
-              length: 4,
-              child: SafeArea(
-                  child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: const [Text("A"), Text("B"), Text("C"), Text("D")],
-              ))),
+          const SizedBox(height: 20),
+          CarouselSlider(
+            options: CarouselOptions(height: 280),
+            items: [1, 2, 3, 4].map((i) {
+              return Builder(
+                builder: (BuildContext context) {
+                  return Container(
+                      width: double.infinity,
+                      margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0, vertical: 15),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.1),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(20)),
+                      ),
+                      child: ListView.builder(
+                        itemCount: 1,
+                        itemBuilder: (context, index) {
+                          switch (i) {
+                            case 1:
+                              return Column(
+                                children: [
+                                  const Text("Biografía"),
+                                  const SizedBox(height: 20),
+                                  Text("${Heroe.biography?.firstAppearance}")
+                                ],
+                              );
+                            case 2:
+                              return Column(
+                                children: [
+                                  const Text("Nivel de Podere"),
+                                  const SizedBox(height: 20),
+                                  Text(
+                                      "Inteligencia: ${Heroe.powerstats?.intelligence}")
+                                ],
+                              );
+                            case 3:
+                              return Column(
+                                children: [
+                                  const Text("Apariencia"),
+                                  const SizedBox(height: 20),
+                                  Text(
+                                      "Color de Ojos: ${Heroe.appearance?.eyeColor}")
+                                ],
+                              );
+
+                            default:
+                              return Column(
+                                children: [
+                                  const Text("Trabajo"),
+                                  const SizedBox(height: 20),
+                                  Text("Ocupación: ${Heroe.work?.occupation}"),
+                                  const SizedBox(height: 20),
+                                  Text("Base: ${Heroe.work?.base}")
+                                ],
+                              );
+                          }
+                        },
+                      ));
+                },
+              );
+            }).toList(),
+          )
         ],
-      )),
+      ),
     ),
   );
 }

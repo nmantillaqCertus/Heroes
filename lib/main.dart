@@ -12,6 +12,7 @@ class HeroMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       initialRoute: HeroRoutes.home_screen,
       routes: HeroRoutes.routes_hero,
     );

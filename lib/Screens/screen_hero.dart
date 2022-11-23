@@ -12,11 +12,12 @@ class ScreenHero extends StatefulWidget {
 
 class _ScreenHeroState extends State<ScreenHero> {
   late Future<List<HeroFinal>> heroesObtenidos;
+  String argumento = "Adan";
 
   @override
   void initState() {
     super.initState();
-    heroesObtenidos = Service.heroesObtenidos();
+    heroesObtenidos = Service.heroesObtenidos(argumento);
   }
 
   @override
