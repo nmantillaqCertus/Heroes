@@ -1,7 +1,7 @@
+// ignore_for_file: unused_import
+
 import '../Helpers/exportsClass.dart';
-// ignore: unused_import
 import 'package:http/http.dart' as http;
-// ignore: unused_import
 
 class ScreenHero extends StatefulWidget {
   const ScreenHero({super.key});
@@ -12,7 +12,7 @@ class ScreenHero extends StatefulWidget {
 
 class _ScreenHeroState extends State<ScreenHero> {
   late Future<List<HeroFinal>> heroesObtenidos;
-  String argumento = "Adan";
+  String argumento = "";
 
   @override
   void initState() {
@@ -24,8 +24,11 @@ class _ScreenHeroState extends State<ScreenHero> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Pantalla del Heroe"),
-      ),
+          title: const Text("Pantalla del Heroe"),
+          leading: IconButton(
+              onPressed: () =>
+                  showSearch(context: context, delegate: HeroSearchDelegate()),
+              icon: const Icon(Icons.search))),
       body: FutureBuilder(
         future: heroesObtenidos,
         builder: (context, heroes) {

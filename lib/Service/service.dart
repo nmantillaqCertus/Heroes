@@ -54,7 +54,8 @@ class Service {
 
     if (argumento != "") {
       heroesFinales = heroesTemporales
-          .where((heroe) => heroe.name!.contains(argumento)) as List<HeroFinal>;
+          .where((heroe) => heroe.name!.contains(argumento))
+          .toList();
     } else {
       heroesFinales = heroesTemporales;
     }

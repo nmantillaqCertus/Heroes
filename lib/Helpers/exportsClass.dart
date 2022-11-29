@@ -20,5 +20,7 @@ export 'package:super_hero/Routes/hero_routes.dart';
 
 //Service
 export 'package:super_hero/Service/service.dart';
-
 export 'package:carousel_slider/carousel_slider.dart';
+
+//Busqueda
+export 'package:super_hero/Helpers/HeroSearchDelegate.dart';
