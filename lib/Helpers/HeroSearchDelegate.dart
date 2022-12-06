@@ -2,6 +2,7 @@
 import 'package:super_hero/Helpers/exportsClass.dart';
 
 class HeroSearchDelegate extends SearchDelegate {
+  late Future<List<HeroFinal>> heroesObtenidosSearch;
   @override
   String get searchFieldLabel => "Encuentra a tu hereo favorito";
 
@@ -27,7 +28,7 @@ class HeroSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return const Text("Hola buildResults");
+    return const Text("");
   }
 
   @override
@@ -37,10 +38,73 @@ class HeroSearchDelegate extends SearchDelegate {
         height: 250,
         child: Center(child: Image.asset("images/hereo.png")),
       );
+    } else {
+      heroesObtenidosSearch = Service.heroesObtenidos(query);
+      return FutureBuilder(
+        future: heroesObtenidosSearch,
+        builder: (context, heroes) {
+          if (heroes.hasData) {
+            return ListView(
+              children: listaHeroesS(heroes.data!, context),
+            );
+          } else if (heroes.hasError) {
+            return const Text("No se encontraron heroes");
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      );
     }
-
-    return Center(
-      child: Text("Aquí implementar tu logica de buscar personaje '$query'"),
-    );
   }
+}
+
+List<Widget> listaHeroesS(List<HeroFinal> heroesData, BuildContext context) {
+  List<Widget> heroes = [];
+
+  for (var heroe in heroesData) {
+    var nombreHeroe = heroe.name.toString();
+    var imgHereo = heroe.images!.imgLG;
+    heroes.add(Center(
+      child: Card(
+        elevation: 5,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            ListTile(
+              leading: FadeInImage(
+                image: NetworkImage(imgHereo!),
+                placeholder: const AssetImage("images/SpinnerImg.gif"),
+              ),
+              title: Text(nombreHeroe),
+            ), //CircleAvatar
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const SizedBox(width: 8),
+                Text(nombreHeroe),
+                const SizedBox(width: 8)
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                TextButton(
+                  child: const Text('más info'),
+                  onPressed: () {
+                    Navigator.pushNamed(context, "Pantalla_Detalle",
+                        arguments: heroe);
+                  },
+                ),
+                const SizedBox(width: 8)
+              ],
+            ),
+          ],
+        ),
+      ),
+    ));
+  }
+
+  return heroes;
 }

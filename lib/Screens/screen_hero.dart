@@ -34,7 +34,7 @@ class _ScreenHeroState extends State<ScreenHero> {
         builder: (context, heroes) {
           if (heroes.hasData) {
             return ListView(
-              children: listaHeroes(heroes.data!),
+              children: listaHeroesS(heroes.data!),
             );
           } else if (heroes.hasError) {
             return const Text("No se encontraron heroes");
@@ -47,7 +47,7 @@ class _ScreenHeroState extends State<ScreenHero> {
     );
   }
 
-  List<Widget> listaHeroes(List<HeroFinal> heroesData) {
+  List<Widget> listaHeroesS(List<HeroFinal> heroesData) {
     List<Widget> heroes = [];
 
     for (var heroe in heroesData) {
@@ -65,11 +65,10 @@ class _ScreenHeroState extends State<ScreenHero> {
                   placeholder: const AssetImage("images/SpinnerImg.gif"),
                 ),
                 title: Text(nombreHeroe),
-              ), //CircleAvatar
-
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
+                children: [
                   const SizedBox(width: 8),
                   Text(nombreHeroe),
                   const SizedBox(width: 8)
@@ -77,7 +76,20 @@ class _ScreenHeroState extends State<ScreenHero> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
+                children: [
+                  TextButton(
+                    child: const Text("Ver"),
+                    onPressed: () {
+                      //Muestre un modal pop up
+                      showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (context) {
+                          return mostrarDialogo(heroe, context);
+                        },
+                      );
+                    },
+                  ),
                   TextButton(
                     child: const Text('más info'),
                     onPressed: () {
@@ -96,4 +108,29 @@ class _ScreenHeroState extends State<ScreenHero> {
 
     return heroes;
   }
+}
+
+mostrarDialogo(HeroFinal hereo, BuildContext context) {
+  return AlertDialog(
+    title: Text(hereo.name!),
+    content: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(hereo.biography!.fullName!),
+        const SizedBox(
+          height: 10,
+        ),
+        Text(hereo.work!.occupation!)
+      ],
+    ),
+    actions: [
+      TextButton(
+          onPressed: () {
+            //Implementar Logica para Guardar en DB
+
+            Navigator.pop(context);
+          },
+          child: const Text("Cerrar"))
+    ],
+  );
 }
