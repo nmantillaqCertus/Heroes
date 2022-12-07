@@ -24,3 +24,8 @@ export 'package:carousel_slider/carousel_slider.dart';
 
 //Busqueda
 export 'package:super_hero/Helpers/HeroSearchDelegate.dart';
+
+//DataBase
+export 'package:sqflite/sqflite.dart';
+export 'dart:io';
+export 'package:path_provider/path_provider.dart';
