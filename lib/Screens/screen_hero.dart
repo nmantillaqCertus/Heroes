@@ -34,7 +34,7 @@ class _ScreenHeroState extends State<ScreenHero> {
         builder: (context, heroes) {
           if (heroes.hasData) {
             return ListView(
-              children: listaHeroesS(heroes.data!),
+              children: listaHeroesS(heroes.data!, context),
             );
           } else if (heroes.hasError) {
             return const Text("No se encontraron heroes");
@@ -47,7 +47,7 @@ class _ScreenHeroState extends State<ScreenHero> {
     );
   }
 
-  List<Widget> listaHeroesS(List<HeroFinal> heroesData) {
+  List<Widget> listaHeroesS(List<HeroFinal> heroesData, BuildContext context) {
     List<Widget> heroes = [];
 
     for (var heroe in heroesData) {
@@ -88,6 +88,27 @@ class _ScreenHeroState extends State<ScreenHero> {
                           return mostrarDialogo(heroe, context);
                         },
                       );
+
+                      //BASE DE DATOS
+                      final heroDBAux = heroDB();
+                      heroDBAux.idHero = heroe.id;
+                      heroDBAux.name = heroe.name;
+                      heroDBAux.occupation = heroe.work!.occupation;
+                      heroDBAux.imgLG = heroe.images!.imgLG;
+
+                      //Previo a insertar debe validar si existe el registro a insertar
+
+                      //serviceDB.db.nuevoHeroDB(heroDBAux); Insertar
+
+                      //Obteniendo un elemento
+                      /*serviceDB.db
+                          .obtenerHeroDBbyId(1)
+                          .then((value) => print(value.name));*/
+
+                      //Obteniendo Todos los Elementos
+                      serviceDB.db
+                          .obtenerHeroDBAll()
+                          .then((value) => print(value.length));
                     },
                   ),
                   TextButton(
