@@ -43,20 +43,35 @@ class serviceDB {
   Future<int> nuevoHeroDB(heroDB heroDB) async {
     final db = await dataBase; //Obteniendo a la DB
     final response = await db!.insert('personajeDB', heroDB.toJson());
+
     return response;
   }
 
-  Future<heroDB> obtenerHeroDBbyId(int id) async {
+  Future<heroDB?> obtenerHeroDBbyId(int? idHero) async {
     final db = await dataBase; //Obteniendo a la DB
     final response =
-        await db!.query('personajeDB', where: 'id=?', whereArgs: [id]);
+        await db!.query('personajeDB', where: 'idHero=?', whereArgs: [idHero]);
 
-    return heroDB.fromJson(response.first);
+    return response.isNotEmpty ? heroDB.fromJson(response.first) : null;
+  }
+
+  Future<void> eliminarHeroDB() async {
+    final db = await dataBase;
+    await db!.delete("personajeDB");
   }
 
   Future<List<heroDB>> obtenerHeroDBAll() async {
     final db = await dataBase; //Obteniendo a la DB
-    final response = await db!.query('personajeDB');
-    return response.map((e) => heroDB.fromJson(response.first)).toList();
+    final List<Map<String, dynamic>> maps = await db!.query('personajeDB');
+
+    return List.generate(maps.length, (i) {
+      return heroDB(
+        id: maps[i]['id'],
+        idHero: maps[i]['idHero'],
+        name: maps[i]['name'],
+        occupation: maps[i]['occupation'],
+        imgLG: maps[i]['imgLG'],
+      );
+    });
   }
 }
